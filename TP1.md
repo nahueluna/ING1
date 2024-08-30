@@ -264,6 +264,8 @@ Me presento, agradezco el tiempo brindado a los entrevistados y comento el prop�
 Final:
 Agradezco la colaboración y prometo enviar datos sobre los resultados.
 
+___
+
 ## Cuestionarios
 
 ### Parte I. Definiciones.
@@ -305,14 +307,25 @@ En base a las modificaciones, el cuestionario se reformularía de la siguiente m
 ¡Saludos a todos los empleados!
 Con motivo de actualizar nuestro sistema de computadoras, nos gustaría conocer su opinión acerca de las siguientes cuestiones:
 1. ¿Durante cuanto tiempo ha trabajado en el sector de las computadoras?
+
 `espacio de respuesta`
+
 2. ¿Cuál es la frecuencia con la que el sistema suele fallar?
+
 `espacio de respuesta`
+
 3. ¿Cuánto tiempo toma solucionar estas fallas?
+
 `espacio de respuesta`
+
 4. En base al tiempo trabajado con el sistema, ¿qué actualizaciones considera que debería tener este para mejorar o facilitar su uso?
+
 `espacio de respuesta`
+
 5. ¿Cuáles de los dispositivos en el sector de cómputo utiliza con más frecuencia (pantalla, impresora, etc.)?
+
 `espacio de respuesta`
+
 6. ¿Qué cantidad de personas y con qué frecuencia se accede a la base de datos de su sucursal?
+
 `espacio de respuesta`
