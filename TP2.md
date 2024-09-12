@@ -742,3 +742,238 @@ ___
     Dado el préstamo del libro "El Hobbit" realizado por el socio "33", el cual está vencido.
     Cuando se registra la devolución del libro "El Hobbit" por parte del socio "33" junto con los datos requeridos.
     Entonces el sistema actualiza historial de préstamos y deja constancia de que el socio devolvió un préstamo en calidad de vencido.
+
+
+## Problema 8: Teatro
+
+**Roles de usuario**:
+- Empleado (vendedor de la boletería)
+- Usuario (cliente)
+- Administrador
+
+**Historias de usuario**:
+- Reservar entradas
+- Mostrar grilla de funciones disponibles
+- Comprar entrada via web
+- Comprar entrada personalmente
+- Pagar con tarjeta
+- Retirar entradas reservadas
+- Imprimir entradas compradas
+- Cargar distribución de obras
+
+___
+
+**ID**: Reservar entradas
+
+**Título**: Como empleado quiero gestionar reserva de entradas para que el cliente asegure su lugar en la obra.
+
+**Reglas de negocio**:
+- Se pueden reservar hasta 2 entradas a la vez
+
+**Criterios de aceptación**:
+
+*Escenario 1:* Reserva exitosa
+
+    Dado el cliente de DNI "45284082" que no posee entradas reservadas y la función de la obra posee disponibilidad.
+    Cuando se ingresa la fecha 11/9, la hora 19:00, la obra "El Principito", junto con el nombre "Juan Pérez" y el DNI "45284082" y se presiona reservar.
+    Entonces el sistema reserva la entrada vínculada al DNI "45284082" de forma exitosa.
+
+*Escenario 2:* Reserva fallida por cantidad de entradas
+
+    Dado el cliente de DNI "45284082" que posee 2 entradas reservadas y la función de la obra posee disponibilidad.
+    Cuando se ingresa la fecha 11/9, la hora 19:00, la obra "El Principito", junto con el nombre "Juan Pérez" y el DNI "45284082" y se presiona reservar.
+    Entonces el sistema impide la reserva de la entrada e informa que el cliente posee 2 entradas reservadas.
+
+___
+
+**ID**: Mostrar grilla de funciones disponibles
+
+**Título**: Como cliente y empleado quiero acceder a la grilla de funciones disponibles para seleccionar una obra de teatro.
+
+**Reglas de negocio**:
+
+**Criterios de aceptación**:
+
+*Escenario 1:* Muestra de funciones disponibles exitosa
+
+    Dado que existen funciones disponibles.
+    Cuando se selecciona mostrar funciones disponibles.
+    Entonces el sistema exhibe la grilla de funciones disponibles.
+
+*Escenario 2:* Muestra de funciones disponibles fallida por falta de disponibilidad
+
+    Dado que no existen funciones disponibles.
+    Cuando se selecciona mostrar funciones disponibles.
+    Entonces el sistema informa que no hay funciones de obras disponibles.
+
+___
+
+**ID**: Comprar entradas vía web
+
+**Título**: Como usuario quiero comprar entradas vía web para conseguir entradas de forma remota.
+
+**Reglas de negocio**:
+
+
+**Criterios de aceptación**:
+
+*Escenario 1:* Compra vía web exitosa
+
+    Dado el usuario de DNI "45284082", tanto las condiciones para la visualización de la grilla de funciones como las de pago son las adecuadas y hay disponibilidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082", la cantidad de 2 lugares solicitados y se presiona pagar.
+    Entonces el sistema redirige a ventana de pago, espera respuesta y se emite el código de compra.
+
+*Escenario 2:* Compra vía web fallida por error en el pago
+
+    Dado el usuario de DNI "45284082", las condiciones para la visualización de la grilla de funciones son las adecuadas,las condiciones de pago no son las adecuadas y hay disponiblidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082", la cantidad de 2 lugares solicitados y se presiona pagar.
+    Entonces el sistema redirige a ventana de pago, espera respuesta, informa que el pago no se ha podido realizar y permite intentar nuevamente.
+
+*Escenario 3:* Compra vía web fallida por disponibilidad insuficiente
+
+    Dado el usuario de DNI "45284082", tanto las condiciones para la visualización de la grilla de funciones como las de pago son las adecuadas y no hay disponibilidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082" y se indica la cantidad de 2 lugares solicitados.
+    Entonces el sistema informa que no hay disponibilidad de lugares suficiente para comprar la cantidad indicada.
+
+___
+
+**ID**: Comprar entrada personalmente
+
+**Título**: Como empleado quiero gestionar compra de entrada físicamente para que el cliente acceda a ella de forma local.
+
+**Reglas de negocio**:
+
+**Criterios de aceptación**:
+
+*Escenario 1*: Compra personal exitosa
+
+    Dado el cliente de DNI "45284082", tanto las condiciones para la visualización de la grilla de funciones como las de pago son las adecuadas y hay disponibilidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082", la cantidad de 2 lugares solicitados y se presiona pagar.
+    Entonces el sistema redirige a ventana de pago, espera respuesta e imprime las entradas.
+
+*Escenario 2:* Compra personal fallida por error en el pago
+
+    Dado el usuario de DNI "45284082", las condiciones para la visualización de la grilla de funciones son las adecuadas,las condiciones de pago no son las adecuadas y hay disponiblidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082", la cantidad de 2 lugares solicitados y se presiona pagar.
+    Entonces el sistema redirige a ventana de pago, espera respuesta, informa que el pago no se ha podido realizar y permite intentar nuevamente.
+
+*Escenario 3:* Compra personal fallida por disponibilidad insuficiente
+
+    Dado el usuario de DNI "45284082", tanto las condiciones para la visualización de la grilla de funciones como las de pago son las adecuadas y no hay disponibilidad suficiente.
+    Cuando se selecciona la obra "El Principito" del "11/9" a las "19:00hs", se ingresa el DNI "45284082" y se indica la cantidad de 2 lugares solicitados.
+    Entonces el sistema informa que no hay disponibilidad de lugares suficiente para comprar la cantidad indicada.
+
+___
+
+**ID**: Pagar con tarjeta
+
+**Título**: Como cliente quiero pagar con tarjeta para abonar mis entradas.
+
+**Reglas de negocio:**
+- El número debe corresponder a una tarjeta de crédito
+
+**Criterios de aceptación**:
+
+*Escenario 1:* Pago con tarjeta realizado exitosamente.
+
+    Dado que la conexión con el servidor del banco es exitosa, el número "5362765397525673" corresponde a una tarjeta de crédito y la tarjeta tiene saldo suficiente.
+    Cuando se ingresa el número de tarjeta "5362765397525673", vencimiento "06/25", código de seguridad "777" y se presiona "pagar".
+    Entonces el sistema registra el pago e informa compra exitosa.
+
+*Escenario 2:* Pago fallido por tarjeta de crédito inexistente
+
+    Dado que la conexión con el servidor del banco es exitosa y el número "5362765397525673" no corresponde a un número de tarjeta de crédito.
+    Cuando se ingresa el número de tarjeta "5362765397525673", vencimiento "06/25", código de seguridad "777" y se presiona "pagar".
+    Entonces el sistema informa error por número de tarjeta de crédito no válido.
+
+*Escenario 3:* Pago fallido por saldo insuficiente 
+
+    Dado que la conexión con el servidor del banco es exitosa, el número "5362765397525673" corresponde a una tarjeta de crédito y no posee saldo suficiente para la compra.
+    Cuando se ingresa el número de tarjeta "5362765397525673", fecha de vencimiento "06/25", código de seguridad "777" y se presiona "pagar".
+    Entonces el sistema informa error por saldo insuficiente.
+
+*Escenario 4:* Pago fallido por error del servidor del banco.
+
+    Dado que la conexión con el servidor del banco es fallida.
+    Cuando se ingresa un número de tarjeta, fecha de vencimiento y código de seguridad y presiona "pagar".
+    Entonces el sistema informa error por conexión con el banco fallida.
+
+___
+
+**ID**: Retirar entradas reservadas
+
+**Título**: Como empleado quiero gestionar retiro de entradas reservadas para que los clientes abonen y obtengan sus entradas.
+
+**Reglas de negocio**:
+- La persona debe tener entradas reservadas no caducadas
+
+**Criterios de aceptación**:
+
+*Escenario 1*: Retiro exitoso
+
+    Dado el cliente de DNI "45284082" el cual posee una entrada reservada no caducada y las condiciones de pago son las adecuadas.
+    Cuando se ingresa el nombre "Juan Pérez", el DNI "45284082" y se presiona validar.
+    Entonces el sistema indica que el cliente posee una entrada reservada no caducada y procede con el pago.
+
+*Escenario 2*: Retiro fallido por entradas caducadas
+
+    Dado el cliente de DNI "45284082" el cual posee una entrada reservada caducada, y las condiciones de pago son las adecuadas.
+    Cuando se ingresa el nombre "Juan Pérez", el DNI "45284082" y se presiona validar.
+    Entonces el sistema indica que el cliente la entrada del cliente está caducada e impide continuar con el pago.
+
+*Escenario 3*: Retiro fallido por falta de entradas
+
+    Dado el cliente de DNI "45284082" el cual no posee entradas reservadas.
+    Cuando se ingresa el nombre "Juan Pérez", el DNI "45284082" y se presiona validar.
+    Entonces el sistema indica que el cliente no ha reservado ninguna entrada.
+
+___
+
+**ID**: Imprimir entradas compradas
+
+**Título**: Como empleado quiero imprimir entradas compradas para que el cliente obtenga sus entradas ya abonadas.
+
+**Reglas de negocio**:
+
+
+**Criterios de aceptación**:
+
+*Escenario 1*: Impresión exitosa
+
+    Dado el código de compra "66" correspondiente a una entrada existente, y la conexión con dispositivo de impresión es adecuada.
+    Cuando se ingresa el código de compra "66" y se presiona continuar.
+    Entonces el sistema verifica el código de compra, informa los datos de la entrada y procede con su impresión.
+
+*Escenario 2:* Impresión fallida por código de compra inexistente
+
+    Dado el código de compra "66" que no pertenece a una entrada existente, y la conexión con dispositivo de impresión es adecuada.
+    Cuando se ingresa el código de compra "66" y se presiona continuar.
+    Entonces el sistema verifica el código de compra e informa que este no es válido.
+
+*Escenario 3:* Impresión fallida por error de conexión con impresora
+
+    Dado el código de compra "66" correspondiente a una entrada existente, y la conexión con dispositivo de impresión no es la adecuada.
+    Cuando se ingresa el código de compra "66" y se presiona verificar.
+    Entonces el sistema verifica el código de compra, informa los datos de la entrada e indica error al conectarse a la impresora.
+
+___
+
+**ID**: Cargar distribución de obras
+
+**Título**: Como administrador quiero ingresar la distribución semanal de las obras para que la información esté disponible en el sitio.
+
+**Reglas de negocio**:
+
+**Criterios de aceptación**:
+
+*Escenario 1*: Carga exitosa
+
+    Dado que la obra "El Principito" está programada para proyectarse en la semana y existe disponibilidad en la sala.
+    Cuando se ingresa la obra "El Principito" en la sala 4 con fecha para "11/9" a las "19:00hs" y se presiona cargar.
+    Entonces el sistema informa que se ha cargado correctamente.
+
+*Escenario 2:* Carga fallida por falta de disponibilidad
+
+    Dado que la obra "El Principito" está programada para proyectarse en la semana y no existe disponibilidad en la sala.
+    Cuando se ingresa la obra "El Principito" en la sala 4 con fecha para "11/9" a las "19:00hs" y se presiona cargar.
+    Entonces el sistema informa que la sala no se encuentra disponible en la distribución horaria especificada.
