@@ -831,3 +831,469 @@ ___
     <td>Se verificó el estado del CUIT de la persona especificada en la minuta.</td>
   </tr>
 </table>
+
+#### (4) Máquina de reciclado
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Reciclar</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de reciclado por parte de una persona</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Persona (Cliente)</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: la persona coloca el lo que desea reciclar en el recipiente y presiona reciclar</td>
+    <td>Paso 2: el sistema detecta el tipo de material</td>    
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 3: el sistema registra el peso del elemento </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 4: el sistema imprime recibo con monto total que se debe pagar</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 2 alternativo: fallo producido debido a que el sistema no detecta el tipo de material. Se notifica y retorna el producto. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>El producto ha sido registrado y se ha emitido el recibo con monto total a pagar por lo reciclado</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Listar materiales reciclados</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso por el cual se solicita listado con tipos de materiales por parte de un operador</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Operador</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el operador selecciona la opción de solicitar listado con tipos de materiales reciclados</td>
+    <td>Paso 2: el sistema solicita indicar un período</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el operador indica el dato solicitado</td>
+    <td>Paso 4: el sistema verifica los elementos listados en la fecha indicada</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 5: el sistema muestra los tipos de materiales reciclados en la fecha indicada junto al total abonado por dicho material</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 4 alternativo: no hay productos reciclados en la fecha indicada. Se notifica. Fin de CU</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se listaron los tipos de materiales y el total abonado en la fecha especificada</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Actualizar montos a pagar</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso por el cual se actualizan los montos a pagar por kilo de cada tipo de material por parte de un operador</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Operador</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el operador selecciona la opción de actualizar montos</td>
+    <td>Paso 2: el sistema solicita el tipo de material a actualizar</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el operador ingresa el dato solicitado</td>
+    <td>Paso 4: el sistema solicita el nuevo monto</td>
+  </tr>
+  <tr>
+    <td>Paso 5: el operador ingresa el dato solicitado y presiona aceptar</td>
+    <td>Paso 6: el sistema actualiza el monto</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 5 alternativo: el operador cancela la actualización. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>El monto a pagar por el tipo de material especificado fue actualizado</td>
+  </tr>
+</table>
+
+#### (5) Impresión de fotos
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Registrar Usuario</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el registro de un cliente como usuario del sistema</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Cliente no registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el cliente no registrado selecciona la opción de registro de cuenta</td>
+    <td>Paso 2: el sistema solicita datos personales, nombre, apellido, email y domicilio</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el cliente no registrado completa los datos solicitados</td>
+    <td>Paso 4: el sistema solicita nombre de usuario y contraseña</td>
+  </tr>
+  <tr>
+  <td>Paso 5: el cliente no registrado completa los datos requeridos</td>
+  <td>Paso 6: el sistema verifica que no exista otro usuario con mismo nombre</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 7: el sistema registra el alta del usuario</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 6 alternativo: el nombre de usuario ya existe. Se notifica. Se retoma paso 4.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se realiza el alta de una nueva cuenta de cliente</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Iniciar Sesión</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Decribe el modo en que el cliente registrado inicia sesión en el sistema con usuario y contraseña</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+    <td>Paso 1: el cliente registrado presiona la opción de iniciar sesión</td>
+    <td>Paso 2: el sistema solicita usuario y contraseña</td>    
+  <tr>
+  <tr>
+    <td>Paso 3: el cliente registrado ingresa su usuario y contraseña</td>
+    <td>Paso 4: el sistema verifica el usuario y contrseña ingresados</td>
+  </tr>
+  <tr>
+  <td></td>
+  <td>Paso 5: el sistema registra la sesión iniciada y habilita las funcionalidades del cliente registrado</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso alternativo 4: Falla la verificación por usuario o contraseña no válidas. Se notifica situación. Se ejecuta nuevamente paso 2.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>La sesión ha sido iniciada y se han habilitado las opciones del cliente registrado en el sistema</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Cerrar sesión</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el cierre de sesión por parte del cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>El cliente registrado debe tener una sesión iniciada</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el cliente registrado presiona la opción de cierre de sesión</td>
+    <td>Paso 2: el sistema solicita confirmación del usuario</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el cliente registrado confirma la operación</td>
+    <td>Paso 4: el sistema cierra la sesión y deshabilita las opciones para clientes registrados</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>La sesión se encuentra cerrada, las opciones para clientes registrados deshabilitadas y se eliminan datos de la sesión</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Subir fotos</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de cargar fotos en el sistema por parte del cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>El cliente debe tener una sesión iniciada</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el cliente registrado selecciona la opción de subir fotos</td>
+    <td>Paso 2: el sistema solicita la carga de fotos</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el cliente registrado carga las fotos</td>
+    <td>Paso 4: el sistema verifica la cantidad de fotos cargadas</td>
+  </tr>
+  <tr>
+    <td>Paso 5: el cliente registrado selecciona pagar</td>
+    <td>Paso 6: se ejecuta el CU "Pagar con tarjeta"</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 7: el sistema genera el código único para el retiro de las fotos, lo indica al usuario y vuelve a la menú principal</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 4 alternativo: la cantidad de fotos es superior a 50. Se notifica. Se retoma paso 2.</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 6 alternativo: el pago no se realiza. Se notifica. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Las fotos fueron cargadas y abonadas. Se generó código único para retiro de las fotos.</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Pagar con tarjeta</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el pago con tarjeta de las fotos por parte de un cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Servidor externo de banco, Cliente registrado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>Se debe haber ejecutado el CU "Subir fotos"</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 2: el cliente registrado ingresa los datos de la tarjeta</td>
+    <td>Paso 1: el sistema solicita los datos de la tarjeta</td>    
+  </tr>
+  <tr>
+    <td>Paso 4: el servidor externo acepta la conexión y solicita datos de la tarjeta</td>
+    <td>Paso 3: el sistema solicita conexión con el servidor externo</td>
+  </tr>
+  <tr>
+    <td>Paso 6: el servidor externo valida los datos y fondos suficientes</td>
+    <td>Paso 5: el sistema envía datos de la tarjeta al servidor externo</td>
+  </tr>
+  <tr>
+    <td>Paso 7: el servidor externo retorna el resultado</td>
+    <td>Paso 8: el sistema recibe el resultado de verificación de datos de la tarjeta</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 9: el sistema recibe el resultado de verificación de fondos suficientes</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 10: el sistema registra el pago y finaliza la conexión con el servidor externo</td>
+  </td>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 3 alternativo: la conexión con el servidor externo falla. Se notifica error. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 8 alternativo: la validación de datos de la tarjeta no es correcta. Se informa error en los datos de la tarjeta. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 9 alternativo: la validación de fondos suficientes es incorrecta. Se notifica fondos insuficientes. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se efectuó y registró el pago a través de la tarjeta</td>
+  </tr>
+</table>
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Entregar fotos</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de entregar las fotos abonadas al cliente por parte del empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el empleado selecciona la opción de retiro de fotos</td>
+    <td>Paso 2: el sistema solicita código único</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el empleado ingresa el dato requerido</td>
+    <td>Paso 4: el sistema verifica el código único</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 5: el sistema registra el código y la fecha de retiro de las fotos</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 4 alternativo: el código no es válido. Se notifica. Se retoma paso 2.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>El código único de las fotos y su fecha de retiro fueron registradas en el sistema</td>
+  </tr>
+</table>
