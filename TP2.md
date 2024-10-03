@@ -977,3 +977,427 @@ ___
     Dado que la obra "El Principito" está programada para proyectarse en la semana y no existe disponibilidad en la sala.
     Cuando se ingresa la obra "El Principito" en la sala 4 con fecha para "11/9" a las "19:00hs" y se presiona cargar.
     Entonces el sistema informa que la sala no se encuentra disponible en la distribución horaria especificada.
+
+## Problema 9: Pago Electrónico
+
+**Roles de usuario:**
+- Empleado
+- Gerente
+
+**Historias de usuario:**
+- Recuperar datos de factura
+- Determinar monto a cobrar
+- Registrar pago en central
+- Ver estadísticas de cobros
+
+___
+
+**ID:** Recuperar datos de factura
+
+**Título:** Como empleado, gerente quiero recuperar los datos de la factura para obtener la información importante para el cobro
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Recuperación de datos exitosa
+>**Dado** el código de pago "123" correspondiente a una factura de pago válida y las condiciones de conexión con la central de cobro están dadas.
+> **Cuando** se ingresa el código de pago "123" y se presiona obtener datos.
+> **Entonces** el sistema se conecta con la central de cobro enviando el token y retorna los datos de la factura.
+
+*Escenario 2:* Recuperación de datos fallida por código inexistente
+>**Dado** el código de pago "123" que no corresponde a una factura existente y las condiciones de conexión con la central de cobro están dadas.
+>**Cuando** se ingresa el código de pago "123" y se presiona obtener datos.
+>**Entonces** el sistema se conecta con la central de cobro enviando el token y notifica que la factura solicitada no existe.
+
+*Escenario 3:* Recuperación de datos fallida por error de conexión con central
+>**Dado** el código de pago "123" correspondiente a una factura de pago válida y las condiciones de conexión con la central de cobro no son las adecudas.
+>**Cuando** se ingresa el código de pago "123" y se presiona obtener datos.
+>**Entonces** el sistema notifica que no se ha podido establecer conexión con la central.
+
+___
+
+**ID:** Determinar monto a cobrar
+
+**Título:** Como empleado, gerente quiero verificar el vencimiento de la factura para conocer el monto que se debe abonar
+
+**Reglas de negocio:**
+- Cuando 1er vencimiento está vencido, se aplica recargo al monto original
+- Cuando 2do vencimiento está vencido, no se puede cobrar la factura
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cobro de monto original
+>**Dada** la 1era fecha de vencimiento 2/10 la cual no corresponde a una fecha vencida.
+>**Cuando** se recibe los datos de factura de empresa ABSA, nro de cliente 1234, 1era fecha de vencimiento 2/10, 2da fecha de vencimiento 15/10, recargo 10% y monto $5000 y se presiona verificar factura.
+>**Entonces** el sistema informa que se debe cobrar el monto original.
+
+*Escenario 2:* Cobro de monto con recargo
+>**Dada** la 1era fecha de vencimiento 2/10 la cual corresponde a una fecha vencida.
+>**Cuando** se recibe los datos de factura de empresa ABSA, nro de cliente 1234, 1era fecha de vencimiento 2/10, 2da fecha de vencimiento 15/10, recargo 10% y monto $5000 y se presiona verificar factura.
+>**Entonces** el sistema informa que se debe cobrar el monto original más un recargo del 10%.
+
+*Escenario 3:* Cobro de monto fallido por factura vencida
+>**Dada** la 2da fecha de vencimiento 15/10 la cual corresponde a una fecha vencida.
+>**Cuando** se recibe los datos de factura de empresa ABSA, nro de cliente 1234, 1era fecha de vencimiento 2/10, 2da fecha de vencimiento 15/10, recargo 10% y monto $5000 y se presiona verificar factura.
+> **Entonces** el sistema informa que la factura no se puede cobrar.
+
+___
+
+**ID:** Registrar pagos en central de cobros
+
+**Título:** Como gerente quiero registrar pagos de clientes en central de cobros para asentar las transacciones del día.
+
+**Reglas de negocio:**
+- No se deben enviar dos veces las transacciones
+
+**Criterios de aceptación:**
+
+*Escenario 1*: Registro de pagos exitoso
+>**Dada** la clave maestra "246" correspondiente a una clave válida, se realizaron transacciones en el día, no se ha realizado un registro anterior en el día y las condiciones de conexión con central de cobros son las adecuadas.
+>**Cuando** se ingresa la clave "246" y se presiona registrar pagos.
+>**Entonces** el sistema recupera las transacciones, se conecta a la central de cobros enviándole el token, espera confirmación de central de cobros y registra las transacciones como enviadas.
+
+*Escenario 2*: Registro de pagos fallido por clave inexistente
+>**Dada** la clave maestra "246" que no corresponde a una clave válida y las condiciones de conexión con central de cobros son las adecuadas.
+>**Cuando** se ingresa la clave "246" y se presiona registrar pagos. 
+>**Entonces** el sistema indica que la clave ingresada no es válida.
+
+*Escenario 3*: Registro de pagos fallido por error de conexión con central de pagos
+>**Dada** la clave maestra "246" que corresponde a una clave válida, se realizaron transacciones en el día, no se ha realizado un registro anterior en el día y las condiciones de conexión con central de cobros no son las adecuadas.
+>**Cuando** se ingresa la clave "246" y se presiona registrar pagos.
+>**Entonces** el sistema informa que se ha producido un error durante la conexión con la central-
+
+*Escenario 4*: Registro de pagos fallido por falta de transacciones
+>**Dada** la clave maestra "246" que corresponde a una clave válida, no se ha realizado un registro anterior en el día y no se realizaron transacciones en el día.
+>**Cuando** se ingresa la clave "246" y se presiona registrar pagos.
+>**Entonces** el sistema informa que no se han registrado pagos en el día.
+
+*Escenario 5*: Registro de pagos fallido por segundo intento
+>**Dada** la clave maestra "246" que corresponde a una clave válida, se han realizado transacciones en el día, se ha realizado un registro de pagos anterior en el día y las condiciones de conexión con central de pago son las adecuadas.
+>**Cuando** se ingresa la clave "246" y se presiona registrar pagos.
+>**Entonces** el sistema informa que ya han sido enviadas las transacciones del día.
+
+___
+
+**ID:** Ver estadísticas de cobros
+
+**Título:** Como gerente quiero ver las estadísticas de impuestos y servicios cobrados para tener información de los montos y cantidad de cobros realizados
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Visualización de cobros exitosa
+>**Dada** la clave "246" correspondiente a una clave maestra existente y el rango de fecha 1/9 a 30/9 posee cobros.
+>**Cuando** se ingresa la clave "246", el rango de fechas desde 1/9 al 30/9 y se presiona ver cobros.
+>**Entonces** el sistema muestra las estadísticas de cobros en el rango de fecha, agrupado por empresa.
+
+*Escenario 2*: Visualización de cobros fallida por clave inexistente
+>**Dada** la clave "246" que no corresponde a una clave maestra válida y el rango de fecha 1/9 a 30/9 posee cobros.
+>**Cuando** se ingresa la clave "246", el rango de fechas desde 1/9 al 30/9 y se presiona ver cobros.
+>**Entonces** el sistema informa que la clave maestra no es válida.
+
+*Escenario 3*: Visualización de cobros fallida por rango de fecha sin cobros
+>**Dada** la clave "246" que corresponde a una clave maestra válida y el rango de fecha 1/9 a 30/9 posee cobros.
+>**Cuando** se ingresa la clave "246", el rango de fechas desde 1/9 al 30/9 y se presiona ver cobros.
+>**Entonces** el sistema informa que no se han realizado cobros en el período indicado.
+
+## Problema 10: Un Aventón
+
+**Roles de usuario:**
+- Persona no registrada
+- Usuario registrado
+- Piloto
+- Copiloto
+
+**Historias de usuario:**
+- Registrar usuario
+- Iniciar sesión
+- Cerrar sesión
+- Dar de alta viaje
+- Postular para viaje
+- Aceptar o rechazar candidato a copiloto
+- Calificar usuario
+
+___
+
+**ID:** Registrar usuario
+
+**Título:** Como persona quiero registrarme en la aplicación para compartir vehículo en un viaje.
+
+**Reglas de negocio**
+- No pueden haber dos correos electrónicos iguales en el sistema
+
+**Criterios de aceptación:**
+
+*Escenario 1*: Registro exitoso
+>**Dado** el email "user@example.com" correspondiente a una dirección de correo no existente en el sistema.
+>**Cuando** se ingresa el email "user@example.com", el username "usuario1" y la contraseña "1234" y se presiona registrarse.
+>**Entonces** el sistema crea la cuenta y la registra.
+
+*Escenario 2:* Registro fallido por email existente
+>**Dado** el email "user@example.com" el cual ya se encuentra registrado en el sistema.
+>**Cuando** se ingresa el email "user@example.com", el username "usuario1" y la contraseña "1234" y se presiona registrarse.
+>**Entonces** el sistema informa que la dirección de correo electrónico ya está asociada a una cuenta existente.
+
+___
+
+**ID**: Iniciar Sesión
+
+**Título:** Como usuario registrado quiero iniciar sesión para acceder a las funcionalidades de la aplicación
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1*: Inicio de sesión exitoso
+>**Dado** el username "usuario1" correspondiente a un usuario ya registrado y la contraseña "1234" es correcta.
+>**Cuando** se ingresa el username "usuario1", la contraseña "1234" y se presiona iniciar sesión.
+>**Entonces** el sistema da mensaje de bienvenida y muestra opciones del menú principal.
+
+*Escenario 2*: Inicio de sesión fallido por username inexistente
+>**Dado** el username "usuario1" no corresponde a un usuario registrado
+>**Cuando** se ingresa el username "usuario1", la contraseña "1234" y se presiona iniciar sesión. 
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas.
+
+*Escenario 3*: Inicio de sesión fallido por contraseña incorrecta
+>**Dado** el username "usuario1" que corresponde a un usuario registrado y la contraseña "1234" no es correcta
+>**Cuando** se ingresa el username "usuario1", la contraseña "1234" y se presiona iniciar sesión. 
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas.
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como usuario registrado quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cierre de sesión exitoso
+>**Dado** el usuario de username "usuario1" que ha iniciado sesión.
+>**Cuando** se presiona cerrar sesión.
+>**Entonces** el sistema cierra la sesión del usuario y redirige a la pantalla de inicio de sesión.
+
+___
+
+**ID:** Dar de alta viaje
+
+**Título:** Como piloto quiero dar de alta un viaje para buscar copilotos que me acompañen
+
+**Reglas de negocio:**
+- Los viajes no pueden superponerse
+- Un usuario que adeuda calificaciones no puede dar de alta un viaje
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Alta de viaje exitosa
+>**Dado** el usuario piloto "usuario1" que se encuentra autenticado, no adeuda calificaciones, y la fecha y hora 2/10 15:00hs no se superpone con otro viaje suyo.   
+>**Cuando** el usuario "usuario1" ingresa la fecha 2/10, la hora 15:00hs, el vehículo Chery Tiggo, y presiona subir viaje.
+>**Entonces** el sistema da de alta el viaje y lo incluye como opción para postularse.
+
+*Escenario 2:* Alta de viaje fallida por viaje superpuesto
+>**Dado** el usuario piloto "usuario1" que se encuentra autenticado, no adeuda calificaciones y la fecha y hora 2/10 15:00hs se superpone con un viaje suyo dado de alta anteriormente.
+>**Cuando** el usuario "usuario1" ingresa la fecha 2/10, la hora 15:00hs, el vehículo Chery Tiggo, y presiona subir viaje.
+>**Entonces** el sistema verifica la fecha y hora e informa que ya posee un viaje en la franja horaria indicada.
+
+*Escenario 3:* Alta de viaje fallida por adeudar calificación
+>**Dado** el usuario piloto "usuario1" que se encuentra autenticado y adeuda calificaciones.
+>**Cuando** el usuario "usuario1" selecciona la opción de cargar viaje.
+>**Entonces** el sistema le informa que debe calificar lo que adeuda antes de dar de alta otro viaje.
+
+___
+
+**ID:** Postular para viaje
+
+**Título:** Como copiloto quiero postularme a un viaje para unirme a un piloto en su recorrido
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Postulación exitosa
+>**Dado** el usuario copiloto "usuario1" quien se encuentra autenticado y el viaje posee capacidad suficiente.
+>**Cuando** el usuario "usuario1" selecciona el viaje a postularse.
+>**Entonces** el sistema envía una solicitud al dueño del viaje de parte del copiloto para participar del viaje.
+
+*Escenario 2:* Postulación fallida por falta de disponibilidad
+>**Dado** el usuario copiloto "usuario1" quien se encuentra autenticado y el viaje no posee capacidad disponible suficiente. 
+>**Cuando** el usuario "usuario1" selecciona el viaje a postularse.
+>**Entonces** el sistema informa que el viaje seleccionado no posee lugares disponibles.
+
+___
+
+**ID:** Aceptar o rechazar candidato a copiloto
+
+**Título:** Como piloto quiero aceptar o rechazar un copiloto para determinar los acompañantes de mi viaje
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* aceptación de copiloto exitosa
+>**Dado** el usuario piloto "usuario1" que posee un viaje dado de alta y postulantes para este.
+>**Cuando** el usuario "usuario1" selecciona al postulante y presiona aceptar.
+>**Entonces** el sistema informa que el postulante ha sido aceptado y envía notificación al copiloto.
+
+*Escenario 2:* rechazo de copiloto exitosa
+>**Dado** el usuario piloto "usuario1" que posee un viaje dado de alta y postulantes para este.
+>**Cuando** el usuario "usuario1" selecciona al postulante y presiona rechazar.
+>**Entonces** el sistema informa que el postulante ha sido rechazado y lo elimina de los candidatos al viaje.
+
+___
+
+**ID:** Calificar usuario
+
+**Título:** Como participante de viaje quiero calificar a los demás usuarios participantes para opinar sobre su compañía durante el viaje
+
+**Reglas de negocio:**
+- Calificaciones positivas suman un punto de reputación
+- Calificaciones negativas restan un punto de reputación
+
+**Criterios de aceptación:**
+
+*Escenario 1:* calificación positiva exitosa
+>**Dado** el usuario de username "usuario1" que ha participado en el viaje ya finalizado junto al usuario de username "usuario2"
+>**Cuando** el usuario "usuario1" selecciona al usuario "usuario2", indica una calificación positiva y selecciona enviar.
+>**Entonces** el sistema suma un punto de reputación del usuario calificado y registra que el usuario calificador ha expedido su reseña.
+
+*Escenario 2:* calificación negativa exitosa
+>**Dado** el usuario de username "usuario1" que ha participado en el viaje ya finalizado junto al usuario de username "usuario2"
+>**Cuando** el usuario "usuario1" selecciona al usuario "usuario2", indica una calificación negativa y selecciona enviar.
+>**Entonces** el sistema resta un punto de reputación del usuario calificado y registra que el usuario calificador ha expedido su reseña.
+
+## Problema 11: Concursos
+
+**Roles de usuarios:**
+- Docente no registrado
+- Docente registrado
+- Jefe del área de concursos
+
+**Historias de usuario:**
+- Registrar usuario
+- Iniciar sesión
+- Cerrar sesión
+- Inscribirse a concurso
+- Imprimir listado de inscriptos a materia
+
+___
+
+**ID:** Registrar usuario
+
+**Título:** Como docente no registrado quiero registrarme en el sistema para poder inscribirme a un concurso.
+
+**Reglas de negocio**
+- Mail no puede repetirse y será usado como nombre de usuario
+- DNI debe ser menor a 55 millones y mayor a 12 millones
+
+**Criterios de aceptación:**
+
+*Escenario 1*: Registro exitoso
+>**Dado** el email "user@example.com" correspondiente a una dirección de correo no existente en el sistema y el DNI "40.947.425" el cual es menor a 55 millones y mayor a 12 millones.
+>**Cuando** el docente no registrado ingresa el DNI "40.947.425", el email "user@example.com", el nombre "Pedro", el apellido "Pascal" y presiona registrarse.
+>**Entonces** el sistema da de alta la cuenta y envía al correo indicado la contraseña de la cuenta generada automáticamente.
+
+*Escenario 2:* Registro fallido por email existente
+>**Dado** el email "user@example.com" el cual ya se encuentra registrado en el sistema.
+>**Cuando** el docente no registrado ingresa el DNI "40.947.425", el email "user@example.com", el nombre "Pedro", el apellido "Pascal" y presiona registrarse.
+>**Entonces** el sistema informa que la dirección de correo electrónico ya está asociada a una cuenta existente.
+
+*Escenario 3:* Registro fallido por DNI no permitido
+>**Dado** el email "user@example.com" el cual no se encuentra registrado en el sistema y el DNI "10.242.257" el cual es menor a 12 millones.
+>**Cuando** el docente no registrado ingresa el DNI "10.242.257", el email "user@example.com", el nombre "Pedro", el apellido "Pascal" y presiona registrarse.
+>**Entonces** el sistema informa que el DNI ingresado no cumple con los criterios establecidos para el registro de cuentas y retorna a la pantalla de inicio.
+
+___
+
+**ID**: Iniciar Sesión
+
+**Título:** Como docente registrado y jefe del área de concursos quiero iniciar sesión para acceder a las funcionalidades del sistema de concursos
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1*: Inicio de sesión exitoso para docente
+>**Dado** el mail "user@example.com" correspondiente a un docente ya registrado y la contraseña "1234" es correcta.
+>**Cuando** el docente registrado ingresa el mail "user@example.com", la contraseña "1234" y presiona iniciar sesión.
+>**Entonces** el sistema da mensaje de bienvenida y muestra la opción de inscribirse a concurso y cerrar sesión.
+
+*Escenario 2*: Inicio de sesión exitoso para jefe de área de concursos
+>**Dado** el mail "jefe@example.com" correspondiente a un al jefe del área de concursos y la contraseña "1234" es correcta.
+>**Cuando** el jefe del área de concursos ingresa el mail "jefe@example.com", la contraseña "1234" y presiona iniciar sesión.
+>**Entonces** el sistema da mensaje de bienvenida y muestra la opción de imprimir listado de inscriptos y cerrar sesión.
+
+*Escenario 3*: Inicio de sesión fallido por mail inexistente
+>**Dado** el mail "user@example.com" que no corresponde a un usuario del sistema.
+>**Cuando** el usuario ingresa el mail "user@example.com", la contraseña "1234" y presiona iniciar sesión. 
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas.
+
+*Escenario 4*: Inicio de sesión fallido por contraseña incorrecta
+>**Dado** el mail "user@example.com" que corresponde a un usuario del sistema y la contraseña "1234" no es correcta
+>**Cuando** el usuario ingresa el mail "user@example.com", la contraseña "1234" y presiona iniciar sesión. 
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas.
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como usuario autenticado quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cierre de sesión exitoso
+>**Dado** el mail "user@example.com" correspondiente a un usuario del sistema que ha iniciado sesión.
+>**Cuando** se presiona cerrar sesión.
+>**Entonces** el sistema cierra la sesión del usuario y redirige a la pantalla de inicio de sesión.
+
+___
+
+**ID:** Inscribirse a concurso
+
+**Título:** Como docente registrado quiero inscribirme a un concurso para competir por un puesto en una materia determinada
+
+**Reglas de negocio:**
+- El docente no puede inscribirse a más de 3 concursos
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Inscripción exitosa
+>**Dado** el docente autenticado de mail "user@example.com" que no se ha inscrito a ningún concurso.
+>**Cuando** el docente autenticado de mail "user@example.com" selecciona la materia "Ingeniería de Software I" y presiona inscribirse.
+>**Entonces** el sistema realiza la inscripción e imprime un comprobante.
+
+*Escenario 2:* Inscripción fallida por cantidad de inscripciones superior a las permitidas
+>**Dado** el docente autenticado de mail "user@example.com" que se encuentra inscripto a 3 concursos.
+>**Cuando** el docente autenticado de mail "user@example.com" selecciona la materia "Ingeniería de Software I" y presiona inscribirse.
+>**Entonces** el sistema notifica que el usuario ya se encuentra inscripto a 3 concursos
+
+___
+
+**ID**: Imprimir listado de inscriptos a materia
+
+**Título:** Como jefe del área de concursos quiero imprimir el listado de inscriptos a una materia determinada para enviar dicho lista al secretario administrativo
+
+**Reglas de negocio:**
+
+**Criterios de aceptación**
+
+*Escenario 1:* Impresión exitosa
+>**Dado** el jefe del área de concursos de mail "jefe@example.com" que se encuentra autenticado en el sistema, las condiciones de conexión con la impresora son las adecuadas y hay docentes inscriptos en el concurso de la materia "Ingeniería de Software I".
+>**Cuando** el jefe del área de concursos de mail "jefe@example.com" selecciona la materia "Ingeniería de Software 1" y presiona imprimir listado.
+>**Entonces** el sistema se conecta con la impresora y envía los datos necesarios para realizar la impresión.
+
+*Escenario 2:* Impresión fallida por error de conexión con impresora
+>**Dado** el jefe del área de concursos de mail "jefe@example.com" que se encuentra autenticado en el sistema, las condiciones de conexión con la impresora no son las adecuadas y hay docentes inscriptos en el concurso de la materia "Ingeniería de Software I".
+>**Cuando** el jefe del área de concursos de mail "jefe@example.com" selecciona la materia "Ingeniería de Software 1" y presiona imprimir listado.
+>**Entonces** el sistema informa que la conexión con la impresora ha fallado.
+
+*Escenario 3:* Impresión de listado impedida por falta de inscriptos
+>**Dado** el jefe del área de concursos de mail "jefe@example.com" que se encuentra autenticado en el sistema, las condiciones de conexión con la impresora son las adecuadas y no hay docentes inscriptos en el concurso de la materia "Ingeniería de Software I".
+>**Cuando** el jefe del área de concursos de mail "jefe@example.com" selecciona la materia "Ingeniería de Software 1" y presiona imprimir listado.
+>**Entonces** el sistema notifica que no se han inscrito docentes en la materia seleccionada.
