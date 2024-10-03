@@ -1249,6 +1249,7 @@ ___
     <td>Se efectuó y registró el pago a través de la tarjeta</td>
   </tr>
 </table>
+
 ___
 
 <table>
