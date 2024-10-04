@@ -859,7 +859,7 @@ ___
     <td><strong>Acciones del Sistema</strong></td>
   </tr>
   <tr>
-    <td>Paso 1: la persona coloca el lo que desea reciclar en el recipiente y presiona reciclar</td>
+    <td>Paso 1: la persona coloca lo que desea reciclar en el recipiente y presiona reciclar</td>
     <td>Paso 2: el sistema detecta el tipo de material</td>    
   </tr>
   <tr>
@@ -1296,5 +1296,395 @@ ___
   <tr>
     <td><strong>Postcondición:</strong></td>
     <td>El código único de las fotos y su fecha de retiro fueron registradas en el sistema</td>
+  </tr>
+</table>
+
+
+#### (6) Ventas de Entradas para Teatro
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Comprar entrada vía web</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe la compra de una entrada por la web por parte de un usuario cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el cliente selecciona la opción de comprar entrada</td>
+    <td>Paso 2: el sistema muestra la grilla de funciones disponibles</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el cliente selecciona una de las obras de la lista</td>
+    <td>Paso 4: el sistema solicita DNI y cantidad de lugares</td>
+  </tr>
+  <tr>
+    <td>Paso 5: el cliente ingresa los datos requeridos y selecciona la opción pagar</td>
+    <td>Paso 6: se ejecuta CU "Pagar con Tarjeta"</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 7: el sistema emite código de compra de la/s entrada/s</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 6 alternativo: el pago no se realiza. Se notifica. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se registró compra y se emitió código de compra</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Reservar entrada</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de reserva de entrada realizado por un empleado (vendedor de boletería) para un cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el empleado selecciona la opción de reserva de entradas</td>
+    <td>Paso 2: el sistema muestra una grilla de funciones disponibles</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el empleado selecciona una de las obras de la lista</td>
+    <td>Paso 4: el sistema solicita fecha de la obra, hora de la obra, nombre y DNI del cliente, y cantidad de entradas</td>
+  </tr>
+  <tr>
+    <td>Paso 5: el empleado ingresa los datos requeridos</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Paso 6: el sistema verifica la cantidad de entradas reservadas</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Paso 7: el sistema registra la reserva de entradas</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 6 alternativo: reserva fallida por cantidad de entradas solicitadas superior a 2. Se informa. Se retoma paso 4.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>El sistema ha registrado la reserva de entradas del cliente junto a la hora en que se realizó</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Comprar entrada personalmente</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe la compra de una entrada en persona por parte de un empleado para un cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el empleado selecciona la opción de comprar entrada</td>
+    <td>Paso 2: el sistema muestra grilla de funciones disponibles</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el empleado selecciona una de las obras listadas</td>
+    <td>Paso 4: el sistema solicita DNI del cliente y cantidad de lugares solicitados</td>
+  </tr>
+  <tr>
+    <td>Paso 5: el empleado ingresa los datos requeridos y selecciona pagar</td>
+    <td>Paso 6: se ejecuta CU "Pagar con Tarjeta"</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 7: el sistema registra la compra de las entradas y las imprime</td>
+  </tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se ha registrado compra de entradas y se han impreso</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Retirar entradas reservadas</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de retiro de entradas reservadas realizado por un empleado para un cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el empleado selecciona opción de retiro de entradas reservadas</td>
+    <td>Paso 2: el sistema solicita nombre y DNI del cliente</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el empleado ingresa los datos solicitados</td>
+    <td>Paso 4: el sistema verifica que el cliente indicado posea entradas</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 5: el sistema verifica que las entradas no estén caducadas</td>
+  </tr>
+  <tr>
+    <td>Paso 6: el empleado selecciona las entradas reservadas y selecciona pagar</td>
+    <td>Paso 7: se ejecuta CU "Pagar con Tarjeta"</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 8: el sistema registra el retiro de las entradas y las imprime</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 4 alternativo: no hay entradas reservadas. Se informa. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 5 alternativo: retiro fallido por entradas reservadas caducadas. Se informa. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>El sistema ha registrado el retiro de las entradas reservadas y se han impreso</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Retirar entradas compradas</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de retiro de entradas ya compradas realizado por un empleado para un cliente</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Empleado</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el empleado selecciona la opción de retiro de entradas compradas</td>
+    <td>Paso 2: el sistema solicita código de compra</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el empleado ingresa el dato requerido</td>
+    <td>Paso 4: el sistema verifica el código de compra</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 5: el sistema imprime las entradas</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 4 alternativo: código de compra no válido. Se notifica. Fin de CU</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se ha registrado retiro de entradas compradas y se han impreso</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Administrar programación de salas</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe proceso de administración de la distribución semanal de las obras en las salas por parte del administrador</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Administrador</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>---</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 1: el administrador selecciona la opción de cargar distribución semanal</td>
+    <td>Paso 2: el sistema solicita datos de las obras y sus horarios</td>    
+  </tr>
+  <tr>
+    <td>Paso 3: el administrador ingresa los datos requeridos</td>
+    <td>Paso 4: el sistema registra la distribución de las obras</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">---</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se ha cargado la distribución semanal de las obras con sus salas y horarios para su visualización en la grilla de funciones disponibles</td>
+  </tr>
+</table>
+
+___
+
+<table>
+  <tr>
+    <td><strong>Nombre del caso de uso:</strong></td>
+    <td>Pagar con Tarjeta</td>
+  </tr>
+  <tr>
+    <td><strong>Descripción:</strong></td>
+    <td>Describe el proceso de realizaciónl pago de una entrada con tarjeta de crédito</td>
+  </tr>
+  <tr>
+    <td><strong>Actores:</strong></td>
+    <td>Usuario del sistema, Servidor externo del Banco</td>
+  </tr>
+  <tr>
+    <td><strong>Precondiciones:</strong></td>
+    <td>Se deben haber ejecutado los CU "Comprar entrada vía web", "Comprar entrada personalmente" o "Retirar entradas reservadas"</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Normal:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Acción del Actor</strong></td>
+    <td><strong>Acciones del Sistema</strong></td>
+  </tr>
+  <tr>
+    <td>Paso 2: el usuario ingresa los datos requeridos</td>
+    <td>Paso 1: el sistema solicita número de tarjeta, vencimiento y código de seguridad</td>    
+  </tr>
+  <tr>
+    <td>Paso 4: el servidor externo acepta la conexión y solicita número de tarjeta, vencimiento y código de seguridad</td>
+    <td>Paso 3: el sistema solicita conexión con servidor externo del banco</td>
+  </tr>
+  <tr>
+    <td>Paso 6: el servidor externo valida datos de la tarjeta y fondos suficientes</td>
+    <td>Paso 5: el sistema envía datos solicitados</td>
+  </tr>
+  <tr>
+    <td>Paso 7: el servidor externo retorna el resultado</td>
+    <td>Paso 8: el sistema recibe resultado de validación de datos de la tarjeta</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 9: el sistema recibe resultados de validación de fondos suficientes</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Paso 10: el sistema registra el pago la conexión con el servidor externo</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Curso Alterno:</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 3 alternativo: falla la conexión con el servidor externo. Se notifica. Fin de CU</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 8 alternativo: validación de datos incorrecta. Se informa. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td colspan="2">Paso 9 alternativo: fondos insuficientes. Se informa. Fin de CU.</td>
+  </tr>
+  <tr>
+    <td><strong>Postcondición:</strong></td>
+    <td>Se ha registrado el pago realizado a través de la tarjeta</td>
   </tr>
 </table>
