@@ -1401,3 +1401,347 @@ ___
 >**Dado** el jefe del área de concursos de mail "jefe@example.com" que se encuentra autenticado en el sistema, las condiciones de conexión con la impresora son las adecuadas y no hay docentes inscriptos en el concurso de la materia "Ingeniería de Software I".
 >**Cuando** el jefe del área de concursos de mail "jefe@example.com" selecciona la materia "Ingeniería de Software 1" y presiona imprimir listado.
 >**Entonces** el sistema notifica que no se han inscrito docentes en la materia seleccionada.
+
+## Problema 12: Créditos bancarios
+
+**Roles de usuario:**
+- Cliente
+- Gerente del banco
+
+**Historias de usuario:**
+- Pedir crédito
+- Consultar estado de trámite
+- Pedir listado de créditos aprobados
+
+___
+
+**ID:** Pedir crédito
+
+**Título:** Como cliente quiero pedir un crédito en el banco para poder obtener el monto de dinero solicitado
+
+**Reglas de negocio:**
+- El pedido del crédito podrá ser evaluado solo para clientes del banco
+- El monto solicitado no debe superar los $400.000
+
+**Criterios de aceptación:**
+
+*Escenario 1:* pedido de crédito exitoso
+>**Dado** el DNI 45829124 correspondiente a un cliente del banco y el monto solicitado de $300.000
+>
+>**Cuando** el cliente ingresa el DNI 45829124, nombre Juan, apellido Verón, mail user@example.com, tipo de crédito personal y monto $300.000, y presiona solicitar crédito
+>
+>**Entonces** el sistema almacena el trámite para que sea analizado e imprime número de comprobante para el cliente
+
+*Escenario 2:* pedido de crédito fallido por cliente no afiliado al banco
+>**Dado** el DNI 45829124 que no corresponde a un cliente del banco
+>
+>**Cuando** el cliente ingresa el DNI 45829124, nombre Juan, apellido Verón, mail user@example.com, tipo de crédito personal y monto $300.000, y presiona solicitar crédito
+>
+>**Entonces** el sistema detecta que el DNI no corresponde a un cliente del banco y envía un correo electrónico a la dirección de email indicada con un instructivo para hacerse cliente del banco
+
+*Escenario 3:* pedido de crédito fallido por límite de monto excedido
+>**Dado** el DNI 45829124 correspondiente a un cliente del banco y el monto solicitado de $500.000
+>
+>**Cuando** el cliente ingresa el DNI 45829124, nombre Juan, apellido Verón, mail user@example.com, tipo de crédito personal y monto $500.000, y presiona solicitar crédito
+>
+>**Entonces** el sistema muestra el mensaje "El monto solicitado excede el límite permitido"
+
+___
+
+**ID:** Consultar estado de trámite
+
+**Título:** Como cliente quiero consultar el estado de un trámite para saber cuando se me otorgará el cŕedito solicitado
+
+**Reglas de negocio:**
+- Si se ingresa tres veces un código inexistente el sistema bloquea la ip del cliente por 24hs
+
+**Criterios de aceptación:**
+
+*Escenario 1:* consulta exitosa
+>**Dado** el número de comprobante 123 correspondiente a un trámite válido y el usuario no ha tenido 3 intentos fallidos
+>
+>**Cuando** el cliente ingresa el número de comprobante 123 y presiona consultar estado
+>
+>**Entonces** el sistema retorna un informe con el estado del trámite
+
+*Escenario 2:* consulta fallida por código inválido sin bloqueo de usuario
+>**Dado** el número de comprobante 123 que no corresponde a un trámite válido y el usuario no ha tenido 3 intentos fallidos
+>
+>**Cuando** el cliente ingresa el número de comprobante 123 y presiona consultar estado
+>
+>**Entonces** el sistema muestra el mensaje "Trámite inexistente"
+
+*Escenario 3:* consulta fallida por código inválido con bloqueo de usuario
+>**Dado** el número de comprobante 123 que no corresponde a un trámite válido y es la tercera vez que el usuario intenta consultar el trámite
+>
+>**Cuando** el cliente ingresa el número de comprobante 123 y presiona consultar estado
+>
+>**Entonces** el sistema bloquea la ip del cliente por 24hs y muestra el mensaje "Usted ha excedido el número e consultas inválidas"
+
+___
+
+**ID:** Pedir listado de créditos aprobados
+
+**Título:** como gerente del banco quiero pedir un listado de créditos aprobados entre fechas para tener información sobre los créditos a clientes en un período especificado
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+*Escenario 1:* pedido de listado exitoso
+>**Dado** las fechas 1/9 y 30/9 las cuales corresponden a fechas válidas con créditos aprobados
+>
+>**Cuando** el gerente del banco ingresa las fechas 1/9 y 30/9, y presiona pedir listado
+>
+>**Entonces** el sistema muestra un listado con los créditos aprobados en entre las fechas indicadas
+
+*Escenario 2:* pedido de listado fallido por fechas inválidas
+>**Dado** las fechas 1/9 y 31/9 las cuales no son fechas válidas
+>
+>**Cuando** el gerente del banco ingresa las fechas 1/9 y 31/9, y presiona pedir listado
+>
+>**Entonces** el sistema muestra un mensaje indicando "las fechas ingresadas no son válidas"
+
+*Escenario 3:* pedido de listado vacío por falta de créditos
+>**Dado** las fechas 1/9 y 30/9 correspondientes a fechas válidas sin créditos aprobados
+>
+>**Cuando** el gerente del banco ingresa las fechas 1/9 y 30/9, y presiona pedir listado
+>
+>**Entonces** el sistema muestra el mensaje "No hay créditos aprobados en las fechas ingresadas"
+
+___
+
+## Problema 13: Venta de libros
+
+**Roles de usuario:**
+- Usuario visitante
+- Usuario autenticado
+- Servidor externo (banco)
+
+**Historias de usuario:**
+- Acceder catálogo de libros
+- Dar de alta parcialmente
+- Registrar usuario totalmente
+- Iniciar sesión
+- Cerrar sesión
+- Comprar libro
+- Pagar con tarjeta
+
+___
+
+**ID:** Acceder catálogo de libros
+
+**Título:** Como usuario visitante o registrado quiero acceder al catálogo de libros para visualizar los productos que se ofrecen
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* muestra de catálogo con libros disponibles
+>**Dado** el catálogo que posee libros disponibles
+>
+>**Cuando** el usuario visitante o registrado presiona la opción de catálogo de libros
+>
+>**Entonces** el sistema muestra los libros disponibles
+
+*Escenario 2:* muestra de catálogo sin libros disponibles
+>**Dado** el catálogo que no posee libros disponibles
+>
+>**Cuando** el usuario visitante o registrado presiona la opción de catálogo de libros
+>
+>**Entonces** el sistema informa que no hay libros disponibles
+
+___
+
+**ID:** Dar de alta parcialmente
+
+**Título:** Como usuario visitante quiero darme de alta parcialmente para realizar el primer paso de registro de mi cuenta
+
+**Reglas de negocio:**
+- el correo electrónico será utilizado como username
+- la clave debe ser de 6 caracteres
+
+**Criterios de aceptación:**
+
+*Escenario 1:* alta parcial exitosa
+>**Dado** el email user@example.com que no existe en el sistema y la clave 123456 que posee 6 caracteres
+>
+>**Cuando** el usuario visitante ingresa el nombre Enzo, apellido Pérez, DNI 45827192, email user@example.com, clave 123456 y presiona registrarse
+>
+>**Entonces** el sistema genera un código de 16 dígitos y lo envía al correo electrónico indicado
+
+*Escenario 2:* alta parcial fallida por email existente
+>**Dado** el email user@example.com que ya existe en el sistema
+>
+>**Cuando** el usuario visitante ingresa el nombre Enzo, apellido Pérez, DNI 45827192, email user@example.com, clave 123456 y presiona registrarse
+>
+>**Entonces** el sistema informa que el email ya se encuentra registrado
+
+*Escenario 3:* alta parcial fallida por clave de longitud no permitida
+>**Dado** el email user@xample.com que no existe en el sistema y la clave 123 que posee 3 caracteres
+>
+>**Cuando** el usuario visitante ingresa el nombre Enzo, apellido Pérez, DNI 45827192, email user@example.com y la clave 123
+>
+>**Entonces** el sistema notifica que la clave debe poseer 6 caracteres
+
+___
+
+**ID:** Registrar usuario totalmente
+
+**Título:** Como usuario visitante quiero completar el registro de mi cuenta para poder comprar un libro
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* registro exitoso
+>**Dado** el código 0112358132134558 que corresponde a un código de confirmación de cuenta generado y el email user@example.com que está dado de alta parcialmente en el sistema
+>
+>**Cuando** el usuario visitante ingresa el email user@example.com, el código de confirmación 0112358132134558 y presiona confirmar
+>
+>**Entonces** el sistema registra al usuario
+
+*Escenario 2:* registro fallido por código incorrecto
+>**Dado** el código 0112358132134558 que no corresponde a un código de confirmación de cuenta generado
+>
+>**Cuando** el usuario visitante ingresa el email user@example.com, el código de confirmación 0112358132134558 y presiona confirmar
+>
+>**Entonces** el sistema informa que el código de confirmación no es válido
+
+*Escenario 3:* registro fallido por email incorrecto
+>**Dado** el código 0112358132134558 que corresponde a un código de confirmación de cuenta generado y el email user@example que no existe en el sistema
+>
+>**Cuando** el usuario visitante ingresa el email user@example.com, el código de confirmación 0112358132134558 y presiona confirmar
+>
+>**Entonces** el sistema informa que el email indicado no está registrado
+
+__
+
+**ID:** Iniciar sesión
+
+**Título:** como usuario registrado quiero iniciar sesión para acceder a las funcionalidades del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1*: inicio de sesión exitoso
+>**Dado** el email user@example.com el cual existe en el sistema y la clave 123456 que es correcta
+>
+>**Cuando** el usuario registrado ingresa el email user@example.com, la clave 123456 y presiona iniciar sesión
+>
+>**Entonces** el sistema redirige al usuario a la pantalla principal del sitio y habilita las funcionalides de usuario con sesión iniciada
+
+*Escenario 2*: inicio de sesión fallido por email incorrecto
+>**Dado** el email user@example.com el cual no existe en el sistema
+>
+>**Cuando** el usuario registrado ingresa el email user@example.com, la clave 123456 y presiona iniciar sesión
+>
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas
+
+*Escenario 3*: inicio de sesión fallido por clave incorrecto
+>**Dado** el email user@example.com el cual existe en el sistema y la clave 123456 que no es correcta
+>
+>**Cuando** el usuario registrado ingresa el email user@example.com, la clave 123456 y presiona iniciar sesión
+>
+>**Entonces** el sistema informa que las credenciales ingresadas no son válidas
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como usuario registrado quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* cierre de sesión exitoso 
+>**Dado** el usuario de email user@example.com que ha iniciado sesión
+>
+>**Cuando** el usuario registrado presiona cerrar sesión
+>
+>**Entonces** el sistema cierra la sesión del usuario y redirige a la pantalla de inicio de sesión
+
+___
+
+**ID:** Comprar libro
+
+**Título:** Como usuario registrado quiero comprar un libro para agregarlo a mi biblioteca personal
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* compra exitosa
+>**Dado** el ISBN 1234 que corresponde a un libro disponible y las condiciones de pago son las adecuadas
+>
+>**Cuando** el usuario registrado ingresa el ISBN 1234 y presiona comprar
+>
+>**Entonces** el sistema redirige al usuario al pago con tarjeta, espera respuesta y genera un enlace de descarga al correo del usuario
+
+*Escenario 2:* compra fallida por ISBN de libro no disponible
+>**Dado** el ISBN 1234 que corresponde a un libro que no se encuentra disponible
+>
+>**Cuando** el usuario registrado ingresa el ISBN 1234 y presiona comprar
+>
+>**Entonces** el sistema informa que el libro elegido no se encuentra disponible
+
+*Escenario 3:* compra fallida por ISBN inexistente
+>**Dado** el ISBN 1234 que no corresponde a un libro existente
+>
+>**Cuando** el usuario registrado ingresa el ISBN 1234
+>
+>**Entonces** el sistema informa que el ISBN especificado no se corresponde con un libro existente en el sitio
+
+*Escenario 4:* compra fallida por error en el pago
+>**Dado** el ISBN 1234 que corresponde a un libro disponible y las condiciones de pago no son las adecuadas
+>
+>**Cuando** el usuario registrado ingresa el ISBN 1234 y presiona pagar
+>
+>**Entonces** el sistema redirige al usuario al pago con tarjeta, espera respuesta e informa que se ha producido un error en el pago por lo que no se ha podido realizar la compra
+
+___
+
+**ID:** Pagar con tarjeta
+
+**Título:** Como usuario registrado quiero pagar con tarjeta para finalizar la compra de mi libro
+
+**Reglas de negocio:**
+- El nombre y apellido registrado en el sistema deben coincidir con el de la tarjeta
+
+**Criterios de aceptación:**
+
+*Escenario 1:* pago realizado exitosamente
+>**Dado** el número 4567 que corresponde a una tarjeta existente con fondos suficientes, el nombre y apellido Pedro Pascal que se condicen con los registrados en la cuenta y la conexión con el servidor externo es exitosa
+>
+>**Cuando** el usuario registrado ingresa el nombre Pedro, apellido Pascal, nro de tarjeta 4567 y presiona pagar
+>
+>**Entonces** el sistema registra el pago y retorna resultado de éxito
+
+*Escenario 2:* pago no realizado por número de tarjeta inexistente
+>**Dado** el número 4567 que no corresponde a una tarjeta existente y la conexión con el servidor externo es exitosa
+>
+>**Cuando** el usuario registrado ingresa el número 4567, el nombre Pedro, el apellido Pascal y presiona pagar
+>
+>**Entonces** el sistema retorna error por número de tarjeta inexistente
+
+*Escenario 3:* pago no realizado por fondos insuficientes
+>**Dado** el número 4567 que corresponde a una tarjeta existente con fondos insuficientes y la conexión con el servidor externo es exitosa
+>
+>**Cuando** el usuario registrado ingresa el número 4567, el nombre Pedro, el apellido Pascal y presiona pagar
+>
+>**Entonces** el sistema retorna error por fondos de tarjeta insuficientes
+
+*Escenario 4:* pago no realizado por error de conexión con servidor externo
+>**Dado** que no se ha podido establecer la conexión con el servidor externo
+>
+>**Cuando** el usuario registrado ingresa el número de tarjeta 4567, el nombre Pedro, el apellido Pascal y presiona pagar
+>
+>**Entonces** el sistema retorna error por conexión fallida
+
+*Escenario 5:* pago no realizado por titular de tarjeta incorrecto
+>**Dado** que el número de tarjeta 4567 corresponde a una tarjeta existente con fondos suficientes, la conexión con el servidor externo es exitosa y el nombre y apellido del titular de la tarjeta Pedro Pascal no se condicen con los registrados en la cuenta
+>
+>**Cuando** el usuario registrado ingresa el número de tarjeta 4567, el nombre Pedro, el apellido Pascal y presiona pagar
+>
+>**Entonces** el sistema informa que solo el titular de la tarjeta puede realizar la compra 
