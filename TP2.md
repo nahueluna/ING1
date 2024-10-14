@@ -1745,3 +1745,445 @@ ___
 >**Cuando** el usuario registrado ingresa el número de tarjeta 4567, el nombre Pedro, el apellido Pascal y presiona pagar
 >
 >**Entonces** el sistema informa que solo el titular de la tarjeta puede realizar la compra 
+
+## Problema 14: Manejo de tarjetas de crédito
+
+**Roles de usuario:**
+- Empleado del área comercial
+- Gerente de la sucursal
+
+**Historias de usuario:**
+- Iniciar sesión
+- Cerrar sesión
+- Dar de alta tarjeta
+- Dar de baja tarjeta
+- Pedir listado de operaciones realizadas
+
+___
+
+**ID:** Iniciar Sesión
+
+**Título:** Como empleado del área comercial o gerente de la sucursal quiero iniciar sesión para acceder a las funcionalidades del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* inicio de sesión exitoso
+>**Dado** las credenciales de un empleado o gerente existente en el sistema y las condiciones de conexión con el sistema del banco central son las adecuadas
+>
+>**Cuando** el empleado o gerente ingresa sus credenciales y presiona iniciar sesión
+>
+>**Entonces** el sistema recibe un token de autenticación válido, muestra mensaje de bienvenida y habilita opciones del menu principal
+
+*Escenario 2:* inicio de sesión fallido por error de conexión
+>**Dado** las credenciales de un empleado o gerente existente en el sistema y las condiciones de conexión con el sistema del banco central no son las adecuadas
+>
+>**Cuando** el empleado o gerente ingresa sus credenciales y presiona iniciar sesión
+>
+>**Entonces** el sistema informa fallo en la validación de identidad del usuario por error de conexión con sistema del banco central
+
+*Escenario 3:* inicio de sesión fallido por credenciales incorrectas
+>**Dado** las credenciales de un empleado o gerente que no corresponden a credenciales existentes en el sistema y las condiciones de conexión con el sistema del banco central son las adecuadas
+>
+>**Cuando** el empleado o gerente ingresa sus credenciales y presiona iniciar sesión
+>
+>**Entonces** el sistema muestra mensaje "credenciales inválidas, intente nuevamente"
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como empleado del área comercial o gerente de la sucursal quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cierre de sesión exitoso
+>**Dado** el empleado o gerente de credenciales existentes en el sistema que ha iniciado sesión
+>
+>**Cuando** el empleado o gerente presionan cerrar sesión
+>
+>**Entonces** el sistema cierra la sesión y redirige a la ventana de inicio de sesión
+
+___
+
+**ID:** Dar de alta tarjeta
+
+**Título:** Como empleado del área comercial o gerente de la sucursal quiero dar de alta una tarjeta para otorgarle a un cliente su nueva tarjeta
+
+**Reglas de negocio:**
+- La persona que será titular de la tarjeta debe ser cliente del banco
+- La persona que será titular de la tarjeta no debe ser morosa en el sistema SIVA
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Alta de tarjeta exitosa
+>**Dado** el CUIT 20-45628192-4 perteneciente a un cliente registrado en el banco, las condiciones de conexión con el sistema SIVA son las adecuadas y el cliente no es moroso en este
+>
+>**Cuando** el empleado o gerente ingresa el nombre Pedro Pascal, el DNI 45628192, el CUIT 20-45628192-4, el tipo de tarjeta GOLD y presiona dar de alta
+>
+>**Entonces** el sistema retorna un resultado exitoso y un número de tarjeta nuevo
+
+*Escenario 2:* Alta de tarjeta fallida por cliente no afiliado al banco
+>**Dado** el CUIT 20-45628191-4 que no pertenece a un cliente registrado en el banco
+>
+>**Cuando** el empleado o gerente ingresa el nombre Pedro Pascal, DNI 45628191, CUIT 20-45628191-4, el tipo de tarjeta Básica y presiona dar de alta
+>
+>**Entonces** el sistema muestra el mensaje de error "El CUIT ingresado no pertenece a un cliente del banco"
+
+*Escenario 3:* Alta de tarjeta fallida por cliente moroso en SIVA
+>**Dado** el CUIT 20-45628190-4 perteneciente a un cliente registrado en el banco, las condiciones de conexión con el sistema SIVA son las adecuadas y el cliente es moroso en este
+>
+>**Cuando** el empleado o gerente ingresa el nombre Pedro Pascal, DNI 45628190, CUIT 20-45628190-4, el tipo de tarjeta GOLD y presiona dar de alta
+>
+>**Entonces** el sistema retorna resultado de error y muestra mensaje "Alta de la tarjeta no fue posible. El cliente es moroso en el sistema SIVA"
+
+*Escenario 4:* Alta de tarjeta fallida por error de conexión con servidor externo
+>**Dado** el CUIT 20-45628193-4 perteneciente a un cliente registrado en el banco y las condiciones de conexión con el sistema SIVA no son las adecuadas
+>
+>**Cuando** el empleado o gerente ingresa el nombre Pedro Pascal, DNI 45628193, CUIT 20-45628192-4, tipo de tarjeta Básica y presiona dar de alta
+>
+>**Entonces** el sistema retorna un error por conexión fallida
+
+___
+
+**ID:** Dar de baja tarjeta
+
+**Título:** Como empleado del área comercial o gerente de la sucursal quiero dar de baja una tarjeta para anular la tarjeta existente de un cliente
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Baja de tarjeta exitosa
+>**Dado** el número 1234 que corresponde a una tarjeta de crédito registrada en el sistema
+>
+>**Cuando** el empleado o gerente ingresan el número de tarjeta 1234 y presionan dar de baja
+>
+>**Entonces** el sistema elimina la tarjeta de la base de datos del banco y muestra mensaje de éxito
+
+*Escenario 2:* Baja de tarjeta fallida por tarjeta inexistente
+>**Dado** el número 3456 que no corresponde a una tarjeta de crédito registrada en el sistema
+>
+>**Cuando** el empleado o gerente ingresan el número de tarjeta 3456 y presionan dar de baja
+>
+>**Entonces** el sistema muestra mensaje de error "La tarjeta no existe en el sistema"
+
+___
+
+**ID:** Pedir listado de operaciones realizadas
+
+**Título:** Como gerente quiero pedir listado de las operaciones realizadas para conocer las opereaciones que se efectuaron en un período de tiempo dado
+
+**Reglas de negocio:**
+- No es posible ingresar fechas futuras al presente
+- No es posible que la fecha de inicio sea mayor que la de fin
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Pedido de lista de operaciones exitoso
+>**Dado** la fecha de inicio 01/10/2024 y la de fin 10/10/2024, las cuales corresponden son anteriores a la fecha presente
+>
+>**Cuando** el gerente ingresa la fecha de inicio 01/10/2024 y la de fin 10/10/2024 y presiona listar operaciones
+>
+>**Entonces** el sistema muestra la lista de operaciones realizadas en el rango de fechas
+
+*Escenario 2:* Pedido de lista de operaciones fallido por fecha futura
+>**Dado** la fecha de inicio 01/10/2024 y la de fin 15/10/2024 la cual corresponde a una fecha futura
+>
+>**Cuando** el gerente ingresa la fecha de inicio 01/10/2024 y la de fin 15/10/2024 y presiona listar operaciones
+>
+>**Entonces** el sistema muestra mensaje "No es posible indicar fechas futuras al presente"
+
+*Escenario 3:* Pedido de lista de operaciones fallido por fecha de inicio mayor a fecha de fin
+>**Dado** la fecha de inicio 10/10/2024 y la de fin 01/10/2024
+>
+>**Cuando** el gerente ingresa la fecha de inicio 10/10/2024, la de fin 01/10/2024 y presiona listar operaciones
+>
+>**Entonces** el sistema muestra el mensaje "La fecha de inicio no puede ser mayor a la fecha de fin"
+
+## Problema 15: Manejo de canchas de tenis
+
+**Roles de usuario:**
+- Personas
+- Usuarios del sistema
+
+**Historias de usuario:**
+- Registrar usuario
+- Iniciar sesión
+- Cerrar sesión
+- Solicitar turno
+
+___
+
+**ID:** Registrar usuario
+
+**Título:** Como persona quiero registrar un usuario para poder pedir un turno en una cancha
+
+**Reglas de negocio:**
+- El mail será usado como nombre de usuario
+- Solo se permite registrar a personas mayores de edad (18 años o más)
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Registro exitoso
+>**Dado** el mail user@example.com que no corresponde a un email existente en el sistema y la persona de edad 20 años
+>
+>**Cuando** la persona ingresa el nombre Pedro, apellido Pascal, mail user@example.com, edad 20 años y domicilio 7 y 55 nro 1024, y presiona registrarse
+>
+>**Entonces** el sistema da de alta una cuenta, genera una contraseña y la envía al mail del usuario
+
+*Escenario 2:* Registro fallido por mail existente
+>**Dado** el mail user@yahoo.com que corresponde a un email existente en el sistema y la persona de edad 20 años
+>
+>**Cuando** la persona ingresa el nombre Pedro, apellido Pascal, mail user@yahoo.com, edad 20 años y domicilio 7 y 55 nro 1024, y presiona registrarse
+>
+>**Entonces** el sistema muestra mensaje "El mail indicado ya se encuentra registrado"
+
+*Escenario 3:* Registro fallido por minoría de edad
+>**Dado** el mail user@gmail.com que no corresponde a un email existente en el sistema y la persona de edad 15 años
+>
+>**Cuando** la persona ingresa el nombre Pedro, apellido Pascal, mail user@gmail.com, edad 15 años y domicilio 7 y 55 nro 1024, y presiona registrarse
+>
+>**Entonces** el sistema muestra mensaje "No se permite el registro a menores de edad"
+
+___
+
+**ID:** Iniciar sesión
+
+**Título:** Como usuario quiero iniciar sesión para acceder a las funcionalidades del sistema
+
+**Reglas de negocio:**
+- Si el usuario falla tres veces al iniciar sesión su cuenta es bloqueada
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Inicio de sesión exitoso
+>**Dado** el mail user@example.com el cual corresponde a un usuario registrado en el sistema, la contraseña 1234 que es correcta y su cuenta no está bloqueada
+>
+>**Cuando** el usuario ingresa el mail user@example.com, la contraseña 1234 y presiona iniciar sesión
+>
+>**Entonces** el sistema muestra mensaje de bienvenida y opciones de usuario autenticado
+
+*Escenario 2:* Inicio de sesión fallido sin bloqueo
+>**Dado** el mail user@example que pertenece a un usuario del sistema, la contraseña 3456 la cual no es correcta y tiene menos de 2 intentos de inicio de sesión
+>
+>**Cuando** el usuario ingresa el mail user@example.com, la contraseña 3456 y presiona iniciar sesión
+>
+>**Entonces** el sistema muestra mensaje "El mail o la contraseña no es correcta" e incrementa los intentos de inicio de sesión en uno
+
+*Escenario 3:* Inicio de sesión fallido con bloqueo
+>**Dado** el mail user@example.com que pertenece a un usuario del sistema, la contraseña 3456 la cual no es correcta y tiene 2 intentos de inicio de sesión
+>
+>**Cuando** el usuario ingresa el mail user@example.com, la contraseña 3456 y presiona iniciar sesión
+>
+>**Entonces** el sistema muestra mensaje "La cuenta ha sido bloqueada por reiterados intentos de inicio fallidos" y bloquea la cuenta
+
+*Escenario 4:* Inicio de sesión fallido por mail inexistente
+>**Dado** el mail user@yahoo.com que no existe en el sistema
+>
+>**Cuando** se ingresa el mail user@yahoo.com, la contraseña 1234 y se presiona iniciar sesión
+>
+>**Entonces** el sistema muestra mensaje "El mail o la contraseña no es correcta"
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como usuario quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cierre de sesión exitoso
+>**Dado** el usuario user@example.com que ha iniciado sesión
+>
+>**Cuando** el usuario presiona cerrar sesión
+>
+>**Entonces** el sistema cierra la sesión y redirige a pantalla de inicio de sesión
+
+___
+
+**ID:** Solicitar turno
+
+**Título:** Como usuario quiero solicitar turno para poder practicar tenis
+
+**Reglas de negocio:**
+- No se permite dar turno con menos de 2 días de anticipación a la fecha de reserva
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Solicitud de turno exitosa
+>**Dado** la cancha 1 la cual está disponible en la fecha 10/10/2024 y hora 15hs y hay más de 2 días de anticipación a dicha fecha
+>
+>**Cuando** el usuario ingresa la cancha 1, la fecha 10/10/2024, la hora 15hs y presiona reservar
+>
+>**Entonces** el sistema registra el turno y muestra el mensaje "Su turno ha sido registrado con éxito"
+
+*Escenario 2:* Solicitud de turno fallida por cancha ocupada
+>**Dado** la cancha 2 la cual no está disponible en la fecha 10/10/2024 y hora 15hs
+>
+>**Cuando** el usuario ingresa la cancha 2, la fecha 10/10/2024, la hora 15hs y presiona reservar
+>
+>**Entonces** el sistema muestra el mensaje "Cancha ocupada, por favor selecciona otro día y horario", espera respuesta y redirige a pantalla de selección de turno
+
+*Escenario 3:* Solicitud de turno fallida por anticipación no permitida
+>**Dado** la cancha 3 la cual está disponible en la fecha 9/10/2024 y la hora 15hs, y hay menos de 2 días de anticipación a dicha fecha
+>
+>**Cuando** el usuario ingresa la cancha 3, la fecha 9/10/2024, la hora 15hs y presiona reservar
+>
+>**Entonces** el sistema muestra mensaje "No es posible reservar un turno con una anticipación menor a 2 días a la fecha indicada"
+
+## Problema 16: Procesamiento de imágenes
+
+**Roles de usuario:**
+- Operario
+- Usuario supervisor
+
+**Historias de usuario:**
+- Iniciar sesión
+- Cerrar sesión
+- Cargar imagen
+- Recortar áreas de interés
+- Pedir listado de imágenes procesadas
+
+___
+
+**ID:** Iniciar sesión
+
+**Título:** Como operario o supervisor quiero iniciar sesión para acceder a las funcionalidades del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Inicio de sesión exitoso
+>**Dado** el nombre de usuario "user" y la contraseña 1234 que corresponden a credenciales correctas de un operario o supervisor del observatorio y las condiciones de conexión con el sistema general del observatorio son las adecuadas
+>
+>**Cuando** el operario o supervisor ingresa el nombre de usuario "user", la contraseña 1234 y presiona iniciar sesión
+>
+>**Entonces** el sistema recibe resultado de autenticación correcta, da mensaje de bienvenida y muestra opciones de usuario autenticado
+
+*Escenario 2:* Inicio de sesión fallido por credenciales incorrectas
+>**Dado** el nombre de usuario "user" y la contraseña 1234 que no corresponde a credenciales correctas de un operario o supervisor del laboratorio y las condiciones de conexión con el sistema general del observatorio son las adecuadas
+>
+>**Cuando** se ingresa el nombre "user", la contraseña 1234 y se presiona iniciar sesión
+>
+>**Entonces** el sistema retorna error en al autenticación del usuario por credenciales inválidas
+
+*Escenario 3:* Inicio de sesión fallido por error de conexión con servidor externo
+>**Dado** que las condiciones de conexión con el sistema general del observatorio no son las adecuadas
+>
+>**Cuando** se ingresa un nombre de usuario, contraseña y se presiona iniciar sesión
+>
+>**Entonces** el sistema retorna error por conexión fallida con el sistema general del observatorio
+
+___
+
+**ID:** Cerrar sesión
+
+**Título:** Como operario o supervisor quiero cerrar sesión para salir del sistema
+
+**Reglas de negocio:**
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Cierre de sesión exitoso
+>**Dado** el operario o supervisor "user" que ha iniciado sesión
+>
+>**Cuando** el operario o supervisor presiona cerrar sesión
+>
+>**Entonces** el sistema cierra la sesión y redirige hacia la ventana de inicio de sesión
+
+___
+
+**ID:** Cargar imagen
+
+**Título:** Como operario o supervisor quiero cargar imagen para poder trabajar con ella en el sistema
+
+**Reglas de negocio:**
+- No se deben mostrar imágenes que tengan menos de 2 Megapíxeles de resolución
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Carga de imagen exitosa
+>**Dado** el archivo "cuerpo_celeste.jpg" el cual es una imagen de más 2 Megapíxeles de resolución
+>
+>**Cuando** el operario o supervisor presionan la opción de cargar imagen, selecciona el archivo "cuerpo_celeste.jpg" y presiona cargar
+>
+>**Entonces** el sistema carga la imagen y muestra opción para visualizarla en escala de grises o a color
+
+*Escenario 2*: Carga no realizada por falta de imágenes de 2 MP o más
+>**Dado** que no hay imágenes de 2MP de resolución o más
+>
+>**Cuando** el operario o supervisor presionan la opción de cargar imagen
+>
+>**Entonces** el sistema informa que no hay imágenes de 2MP o más disponibles para cargar
+
+___
+
+**ID:** Recortar áreas de interés
+
+**Título:** Como operario o supervisor quiero recortar áreas de interés de imágenes para analizar las zonas relevantes a las imágenes cargadas
+
+**Reglas de negocio:**
+- No se pueden recortar más de 4 áreas
+- Las áreas no pueden superponerse
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Recorte de áreas exitoso
+>**Dado** que hay imágenes cargadas
+>
+>**Cuando** el operario o supervisor elige una imagen, selecciona 4 áreas no superpuestas y presiona confirmar
+>
+>**Entonces** el sistema registra el recorte y almacena en disco los resultados
+
+*Escenario 2:* Recorte de áreas fallido por más de 4 áreas seleccionadas
+>**Dado** que hay imágenes cargadas
+>
+>**Cuando** el operario o supervisor elige una imagen, selecciona 4 áreas no superpuestas y presiona para seleccionar otra área no superpuesta
+>
+>**Entonces** el sistema informa que no se pueden seleccionar más de 4 áreas
+
+*Escenario 3:* Recorte de áreas fallido por áreas superpuestas
+>**Dado** que hay imágenes cargadas
+>
+>**Cuando** el operario o supervisor elige una imagen y selecciona 4 áreas donde dos se superponen
+>
+>**Entonces** el sistema notifica error por áreas superpuestas
+
+*Escenario 4:* Recorte de áreas fallido por falta de imágenes
+>**Dado** que no hay imágenes cargadas
+>
+>**Cuando** el operario o supervisor presionan para elegir imagen
+>
+>**Entonces** el sistema informa que no hay imágenes cargadas
+
+___
+
+**ID:** Pedir listado de imágenes procesadas
+
+**Título:** Como supervisor quiero pedir listado de imágenes procesadas para visualizar las operaciones sobre imágenes cargadas en un período determinado
+
+**Reglas de negocio:**
+- El sistema no permite mostrar más de 20 imágenes a la vez
+
+**Criterios de aceptación:**
+
+*Escenario 1:* Pedido de listado exitoso
+>**Dado** las fechas 01/10/2024 y 10/10/2024 en las que existen imágenes procesadas
+>
+>**Cuando** el supervisor selecciona las fechas 01/10/2024 y 10/10/2024, y presiona confirmar
+>
+>**Entonces** el sistema muestra hasta 20 imágenes procesadas en las fechas indicadas
+
+*Escenario 2:* Pedido de listado fallido por falta de imágenes
+>**Dado** las fechas 01/09/2024 y 10/09/2024 en las que no se han procesado imágenes
+>
+>**Cuando** el supervisor selecciona las fechas 01/09/2024 y 10/09/2024, y presiona confirmar
+>
+>**Entonces** el sistema informa que no hay imágenes procesadas en el rango de fechas seleccionado
